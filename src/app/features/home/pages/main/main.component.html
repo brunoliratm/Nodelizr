@@ -3,7 +3,15 @@
   <app-metadata-section
     class="section metadata-section"
     [filterForm]="filterForm"
+    [templates]="templates"
+    [presets]="presets"
+    [projectTree]="projectTree"
+    (presetChange)="onPresetChange($event)"
     (generate)="onGenerate()"
   />
-  <app-dependencies-section class="section dependencies-section" [filterForm]="filterForm" />
+  <app-dependencies-section
+    class="section dependencies-section"
+    [filterForm]="filterForm"
+    [libraries]="libraries"
+  />
 </main>

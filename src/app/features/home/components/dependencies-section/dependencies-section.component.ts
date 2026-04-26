@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule } from '@angular/forms';
-import { LibrariesService, Library } from '@core/services/libraries.service';
+import { Library } from '@core/services/libraries.service';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
@@ -12,10 +12,10 @@ import { DialogModule } from 'primeng/dialog';
   templateUrl: './dependencies-section.component.html',
   styleUrls: ['./dependencies-section.component.scss'],
 })
-export class DependenciesSectionComponent implements OnInit {
+export class DependenciesSectionComponent implements OnChanges {
   @Input() filterForm!: FormGroup;
+  @Input() libraries: Library[] = [];
 
-  libraries: Library[] = [];
   grouped: Record<string, Library[]> = {};
   search = '';
   filteredGrouped: Record<string, Library[]> = {};
@@ -24,18 +24,11 @@ export class DependenciesSectionComponent implements OnInit {
     return this.filterForm.get('libraries') as FormArray;
   }
 
-  constructor(private librariesService: LibrariesService) {}
-
-  ngOnInit() {
-    this.librariesService.getAll().subscribe((libs) => {
-      this.libraries = libs;
-      this.grouped = libs.reduce((acc, lib) => {
-        acc[lib.category] = acc[lib.category] || [];
-        acc[lib.category].push(lib);
-        return acc;
-      }, {} as Record<string, Library[]>);
-      this.filteredGrouped = { ...this.grouped };
-    });
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['libraries']) {
+      this.groupLibraries();
+      this.onSearch();
+    }
   }
 
   onSearch() {
@@ -62,12 +55,14 @@ export class DependenciesSectionComponent implements OnInit {
   }
 
   isSelected(lib: Library): boolean {
-    return this.librariesForm.value.some((l: any) => l.name === lib.name);
+    return this.librariesForm.value.some(
+      (selected: { name: string }) => selected.name === lib.name
+    );
   }
 
   toggle(lib: Library) {
     const index = this.librariesForm.value.findIndex(
-      (l: any) => l.name === lib.name
+      (selected: { name: string }) => selected.name === lib.name
     );
     if (index > -1) {
       this.librariesForm.removeAt(index);
@@ -76,5 +71,14 @@ export class DependenciesSectionComponent implements OnInit {
         new FormControl({ name: lib.name, version: lib.version })
       );
     }
+  }
+
+  private groupLibraries() {
+    this.grouped = this.libraries.reduce((acc, lib) => {
+      acc[lib.category] = acc[lib.category] || [];
+      acc[lib.category].push(lib);
+      return acc;
+    }, {} as Record<string, Library[]>);
+    this.filteredGrouped = { ...this.grouped };
   }
 }

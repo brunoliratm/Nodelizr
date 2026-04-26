@@ -45,6 +45,8 @@ You can use Nodelizr directly in your browser, no installation required:
 
 - **Instant Node.js project generation**
 - **Curated dependency selection** (choose your stack)
+- **Real project templates** (API, CLI, Worker, Starter)
+- **Use-case presets** (SaaS API, Public API, Microservice, CLI, Scraping)
 - **Modern, clean UI**
 - **Download as ready-to-run ZIP**
 - **Open source & community-driven**
@@ -98,9 +100,11 @@ You can use Nodelizr directly in your browser, no installation required:
 ## 🛠️ Usage
 
 1. **Fill in project metadata** (name, author, version)
-2. **Select dependencies** from curated categories
-3. **Preview project structure**
-4. **Generate & download** your custom Node.js boilerplate as a ZIP
+2. **Pick a preset** (optional) or keep manual mode
+3. **Choose a template** for your project structure
+4. **Select dependencies** from curated categories
+5. **Preview project structure**
+6. **Generate & download** your custom Node.js boilerplate as a ZIP
 
 </br>
 

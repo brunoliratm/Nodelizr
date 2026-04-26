@@ -23,6 +23,20 @@
       gap: 1rem;
     }
 
+    .input-hint {
+      width: 70%;
+      max-width: 394px;
+      margin-top: -0.55rem;
+      color: var(--text-color);
+      opacity: 0.8;
+      font-size: 0.85rem;
+
+      @media (max-width: 1115px) {
+        width: 100%;
+        max-width: none;
+      }
+    }
+
     .input-group {
       display: flex;
       width: 70%;

@@ -4,6 +4,33 @@
     <div class="form-group">
       <p-inputGroup class="input-group">
         <p-inputGroupAddon>
+          <i class="pi pi-bolt"></i>
+        </p-inputGroupAddon>
+        <select formControlName="presetId" (change)="onPresetChange($event)">
+          <option value="custom">Custom (manual setup)</option>
+          <option *ngFor="let preset of presets" [value]="preset.id">
+            {{ preset.name }}
+          </option>
+        </select>
+      </p-inputGroup>
+      <small class="input-hint">{{ selectedPresetDescription }}</small>
+
+      <p-inputGroup class="input-group">
+        <p-inputGroupAddon>
+          <i class="pi pi-sitemap"></i>
+        </p-inputGroupAddon>
+        <select formControlName="templateId">
+          <option *ngFor="let template of templates" [value]="template.id">
+            {{ template.name }}
+          </option>
+        </select>
+      </p-inputGroup>
+      <small class="input-hint" *ngIf="selectedTemplateDescription">
+        {{ selectedTemplateDescription }}
+      </small>
+
+      <p-inputGroup class="input-group">
+        <p-inputGroupAddon>
           <i class="pi pi-file"></i>
         </p-inputGroupAddon>
         <input
@@ -54,5 +81,5 @@
     Generate
   </button>
 
-  <app-project-tree class="project-tree" />
+  <app-project-tree class="project-tree" [files]="projectTree" />
 </section>
