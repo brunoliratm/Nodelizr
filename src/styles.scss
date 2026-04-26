@@ -1,15 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "primeicons/primeicons.css";
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lilita+One&display=swap");
 
 :root {
-  --bg-color: #3d3737; //Dark Brown
-  --text-color: #efe6de; //Cream Vanilla
-  --text-color-fixed: #efe6de; // Cream Vanilla Fixed
-  --primary-color: #2d322d; //Dark Green
-  --primary-color-fixed: #2d322d; //Dark Green
-  --secondary-color: #3bac53; //Green
-  --toast-error: #e74c3c; // Error Red
-  --toast-warn: #fbbf24; // Warning Yellow
+  --bg-color: #3d3737;
+  --text-color: #efe6de;
+  --text-color-fixed: #efe6de;
+  --primary-color: #2d322d;
+  --primary-color-fixed: #2d322d;
+  --secondary-color: #3bac53;
+  --toast-error: #e74c3c;
+  --toast-warn: #fbbf24;
 
   --font-family: "Inter", sans-serif, Helvetica;
 
@@ -17,19 +21,14 @@
 }
 
 [data-theme="light"] {
-  --bg-color: #efe6de; // Cream Vanilla
-  --text-color: #3d3737; // Dark Brown
-  --primary-color: #ffffff; // White
-  --secondary-color: #3bac53; // Green
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box !important;
+  --bg-color: #efe6de;
+  --text-color: #3d3737;
+  --primary-color: #ffffff;
+  --secondary-color: #3bac53;
 }
 
 body {
+  margin: 0;
   background-color: var(--bg-color);
   padding: 1em 2em !important;
   font-family: var(--font-family);

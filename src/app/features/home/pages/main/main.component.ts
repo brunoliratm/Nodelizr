@@ -1,21 +1,21 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
+    FormArray,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import {
-  ProjectPresetOption,
-  ProjectTemplateOption,
-  TemplateTreeNode,
+    ProjectPresetOption,
+    ProjectTemplateOption,
+    TemplateTreeNode,
 } from '@core/models/generation-options.model';
 import {
-  GenerateProjectPayload,
-  GenerateService,
+    GenerateProjectPayload,
+    GenerateService,
 } from '@core/services/generate.service';
 import { GenerationOptionsService } from '@core/services/generation-options.service';
 import { LibrariesService, Library } from '@core/services/libraries.service';
@@ -30,7 +30,6 @@ import { forkJoin, startWith } from 'rxjs';
   standalone: true,
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
   imports: [
     MetadataSectionComponent,
     DependenciesSectionComponent,

@@ -1,85 +1,124 @@
-<section class="metadata-section">
-  <h2 class="title">Create a new <span>Node.js</span> project</h2>
+<section class="flex h-full w-full flex-col gap-8">
+  <h2 class="text-[1.8rem] font-bold text-[var(--text-color)]">
+    Create a new <span class="text-[var(--secondary-color)]">Node.js</span> project
+  </h2>
   <form [formGroup]="filterForm">
-    <div class="form-group">
-      <p-inputGroup class="input-group">
-        <p-inputGroupAddon>
-          <i class="pi pi-bolt"></i>
-        </p-inputGroupAddon>
-        <select formControlName="presetId" (change)="onPresetChange($event)">
+    <div class="flex flex-col gap-4">
+      <div
+        class="flex w-[70%] max-w-[394px] overflow-hidden rounded-[var(--default-radius)] border border-[var(--text-color)] max-[1115px]:w-full max-[1115px]:max-w-none"
+      >
+        <div class="flex items-center justify-center border-r border-[var(--text-color)] p-3">
+          <i class="pi pi-bolt text-2xl"></i>
+        </div>
+        <select
+          class="w-full bg-transparent px-4 py-3 text-base text-[var(--text-color)] outline-none"
+          formControlName="presetId"
+          (change)="onPresetChange($event)"
+        >
           <option value="custom">Custom (manual setup)</option>
           <option *ngFor="let preset of presets" [value]="preset.id">
             {{ preset.name }}
           </option>
         </select>
-      </p-inputGroup>
-      <small class="input-hint">{{ selectedPresetDescription }}</small>
+      </div>
+      <small class="mt-[-0.55rem] w-[70%] max-w-[394px] text-[0.85rem] text-[var(--text-color)]/80 max-[1115px]:w-full max-[1115px]:max-w-none">
+        {{ selectedPresetDescription }}
+      </small>
 
-      <p-inputGroup class="input-group">
-        <p-inputGroupAddon>
-          <i class="pi pi-sitemap"></i>
-        </p-inputGroupAddon>
-        <select formControlName="templateId">
+      <div
+        class="flex w-[70%] max-w-[394px] overflow-hidden rounded-[var(--default-radius)] border border-[var(--text-color)] max-[1115px]:w-full max-[1115px]:max-w-none"
+      >
+        <div class="flex items-center justify-center border-r border-[var(--text-color)] p-3">
+          <i class="pi pi-sitemap text-2xl"></i>
+        </div>
+        <select
+          class="w-full bg-transparent px-4 py-3 text-base text-[var(--text-color)] outline-none"
+          formControlName="templateId"
+        >
           <option *ngFor="let template of templates" [value]="template.id">
             {{ template.name }}
           </option>
         </select>
-      </p-inputGroup>
-      <small class="input-hint" *ngIf="selectedTemplateDescription">
+      </div>
+      <small
+        class="mt-[-0.55rem] w-[70%] max-w-[394px] text-[0.85rem] text-[var(--text-color)]/80 max-[1115px]:w-full max-[1115px]:max-w-none"
+        *ngIf="selectedTemplateDescription"
+      >
         {{ selectedTemplateDescription }}
       </small>
 
-      <p-inputGroup class="input-group">
-        <p-inputGroupAddon>
-          <i class="pi pi-file"></i>
-        </p-inputGroupAddon>
+      <div
+        class="flex w-[70%] max-w-[394px] overflow-hidden rounded-[var(--default-radius)] border border-[var(--text-color)] max-[1115px]:w-full max-[1115px]:max-w-none"
+      >
+        <div class="flex items-center justify-center border-r border-[var(--text-color)] p-3">
+          <i class="pi pi-file text-2xl"></i>
+        </div>
         <input
-          pInputText
+          class="w-full bg-transparent px-4 py-3 text-base text-[var(--text-color)] outline-none"
           type="text"
           formControlName="description"
           placeholder="Name"
         />
-      </p-inputGroup>
+      </div>
 
-      <p-inputGroup class="input-group">
-        <p-inputGroupAddon>
-          <i class="pi pi-tag"></i>
-        </p-inputGroupAddon>
+      <div
+        class="flex w-[70%] max-w-[394px] overflow-hidden rounded-[var(--default-radius)] border border-[var(--text-color)] max-[1115px]:w-full max-[1115px]:max-w-none"
+      >
+        <div class="flex items-center justify-center border-r border-[var(--text-color)] p-3">
+          <i class="pi pi-tag text-2xl"></i>
+        </div>
         <input
-          pInputText
+          class="w-full bg-transparent px-4 py-3 text-base text-[var(--text-color)] outline-none"
           type="text"
           formControlName="version"
           placeholder="Version"
         />
-      </p-inputGroup>
+      </div>
 
-      <p-inputGroup class="input-group">
-        <p-inputGroupAddon>
-          <i class="pi pi-user"></i>
-        </p-inputGroupAddon>
+      <div
+        class="flex w-[70%] max-w-[394px] overflow-hidden rounded-[var(--default-radius)] border border-[var(--text-color)] max-[1115px]:w-full max-[1115px]:max-w-none"
+      >
+        <div class="flex items-center justify-center border-r border-[var(--text-color)] p-3">
+          <i class="pi pi-user text-2xl"></i>
+        </div>
         <input
-          pInputText
+          class="w-full bg-transparent px-4 py-3 text-base text-[var(--text-color)] outline-none"
           type="text"
           formControlName="author"
           placeholder="Author"
         />
-      </p-inputGroup>
+      </div>
 
-      <p-inputGroup class="input-group">
-        <p-inputGroupAddon>
-          <i class="pi pi-id-card"></i>
-        </p-inputGroupAddon>
-        <select formControlName="license">
+      <div
+        class="flex w-[70%] max-w-[394px] overflow-hidden rounded-[var(--default-radius)] border border-[var(--text-color)] max-[1115px]:w-full max-[1115px]:max-w-none"
+      >
+        <div class="flex items-center justify-center border-r border-[var(--text-color)] p-3">
+          <i class="pi pi-id-card text-2xl"></i>
+        </div>
+        <select
+          class="w-full bg-transparent px-4 py-3 text-base text-[var(--text-color)] outline-none"
+          formControlName="license"
+        >
           <option value="MIT">MIT</option>
           <option value="Apache-2.0">Apache-2.0</option>
           <option value="GPL-3.0">GPL-3.0</option>
         </select>
-      </p-inputGroup>
+      </div>
     </div>
   </form>
-  <button pButton type="button" label="Generate" (click)="generate.emit()">
-    Generate
-  </button>
+  <div class="mt-0.5 flex w-[70%] max-w-[394px] flex-col gap-2 max-[1115px]:w-full max-[1115px]:max-w-none">
+    <button
+      type="button"
+      class="w-full cursor-pointer rounded-[var(--default-radius)] border-none bg-[var(--secondary-color)] px-9 py-3 text-[1.15rem] font-bold text-[var(--text-color-fixed)] shadow-[0_2px_8px_rgba(59,172,83,0.08)] transition-all duration-200 hover:shadow-[0_4px_16px_rgba(59,172,83,0.15)] focus:outline-none"
+      (click)="generate.emit()"
+    >
+      Generate
+    </button>
 
-  <app-project-tree class="project-tree" [files]="projectTree" />
+    <app-project-tree
+      class="project-tree"
+      [files]="projectTree"
+      [templateId]="filterForm.get('templateId')?.value"
+    />
+  </div>
 </section>

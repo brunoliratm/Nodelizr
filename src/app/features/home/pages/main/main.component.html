@@ -1,7 +1,7 @@
 <p-toast position="top-center"></p-toast>
-<main>
+<main class="flex w-full flex-col items-start gap-10 pt-14 lg:flex-row lg:items-stretch lg:gap-0">
   <app-metadata-section
-    class="section metadata-section"
+    class="w-full flex-1 lg:h-full"
     [filterForm]="filterForm"
     [templates]="templates"
     [presets]="presets"
@@ -10,7 +10,7 @@
     (generate)="onGenerate()"
   />
   <app-dependencies-section
-    class="section dependencies-section"
+    class="w-full flex-[1.5] lg:h-full"
     [filterForm]="filterForm"
     [libraries]="libraries"
   />

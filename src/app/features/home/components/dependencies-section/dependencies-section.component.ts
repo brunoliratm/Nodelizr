@@ -2,15 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { Library } from '@core/services/libraries.service';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-dependencies-section',
   standalone: true,
-  imports: [CommonModule, ButtonModule, DialogModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './dependencies-section.component.html',
-  styleUrls: ['./dependencies-section.component.scss'],
 })
 export class DependenciesSectionComponent implements OnChanges {
   @Input() filterForm!: FormGroup;

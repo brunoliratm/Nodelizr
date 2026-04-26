@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-header',
   imports: [CommonModule],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   isLight = true;

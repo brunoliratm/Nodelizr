@@ -1,21 +1,35 @@
-<header class="app-header">
-  <div class="header-content"> <div class="logo-container">
-      <img src="assets/favicon.svg" alt="Logo" class="logo" />
-      <h1 class="app-title">NODE<span class="highlight">LIZR</span></h1>
+<header class="flex flex-col justify-between bg-[var(--bg-color)] text-[var(--text-color)]">
+  <div class="flex w-full flex-wrap items-center justify-between max-[700px]:flex-col max-[700px]:gap-4">
+    <div class="flex items-center gap-4">
+      <img src="assets/favicon.svg" alt="Logo" class="h-auto w-[3.4rem]" />
+      <h1 class="font-['Lilita_One'] text-[3.375rem] font-light leading-none text-[var(--secondary-color)]">
+        NODE<span class="text-[var(--text-color)]">LIZR</span>
+      </h1>
     </div>
 
-    <div class="header-actions">
-      <a target="_blank" href="https://github.com/Aethelon/Nodelizr-API.git" class="header-btn github-btn">
-        <i class="pi pi-github"></i>
-        <span class="github-version">0.1.0</span>
+    <div class="flex gap-4 max-[700px]:w-full max-[700px]:justify-center">
+      <a
+        target="_blank"
+        href="https://github.com/Aethelon/Nodelizr-API.git"
+        class="flex cursor-pointer items-center justify-center rounded-[var(--default-radius)] border border-black bg-[var(--primary-color)] px-4 py-2 text-[1.3rem] font-bold text-[var(--text-color)] shadow-[0.1875rem_0.25rem_0.375rem_0.0625rem_rgba(34,33,33,0.6)] transition-colors duration-300 hover:bg-[var(--secondary-color)] max-[700px]:p-2 max-[700px]:text-[1.9rem]"
+      >
+        <i class="pi pi-github mr-3 text-[2.1rem] max-[700px]:mr-0 max-[700px]:text-[1.9rem]"></i>
+        <span class="max-[700px]:hidden">0.2.0</span>
       </a>
-      <button class="header-btn theme-btn" (click)="toggleTheme()">
+      <button
+        class="flex cursor-pointer items-center justify-center rounded-[var(--default-radius)] border border-black bg-[var(--primary-color)] p-2 text-[1.9rem] text-[var(--text-color)] shadow-[0.1875rem_0.25rem_0.375rem_0.0625rem_rgba(34,33,33,0.6)] transition-colors duration-300 hover:bg-[var(--secondary-color)]"
+        (click)="toggleTheme()"
+      >
         <i class="pi" [ngClass]="isLight ? 'pi-moon' : 'pi-sun'"></i>
       </button>
-      <a target="_blank" href="https://github.com/orgs/Aethelon/discussions" class="header-btn discussion-btn">
+      <a
+        target="_blank"
+        href="https://github.com/orgs/Aethelon/discussions"
+        class="flex cursor-pointer items-center justify-center rounded-[var(--default-radius)] border border-black bg-[var(--primary-color)] p-2 text-[1.9rem] text-[var(--text-color)] shadow-[0.1875rem_0.25rem_0.375rem_0.0625rem_rgba(34,33,33,0.6)] transition-colors duration-300 hover:bg-[var(--secondary-color)]"
+      >
         <i class="pi pi-comments"></i>
       </a>
     </div>
   </div>
-  <hr class="header-divider" />
+  <hr class="mt-4 border-t border-[var(--text-color)]" />
 </header>

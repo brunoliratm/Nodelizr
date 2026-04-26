@@ -1,23 +1,92 @@
-<section class="tree-wrapper">
-  <details open>
-    <summary class="title">Project Structure</summary>
-    <ul class="custom-tree">
-      <ng-container *ngFor="let node of files">
-        <li>
-          <div class="tree-item">
-            <span [ngClass]="node.icon"></span>
-            {{ node.label }}
-          </div>
-          <ul *ngIf="node.children">
-            <li *ngFor="let child of node.children">
-              <div class="tree-item">
-                <span [ngClass]="child.icon"></span>
-                {{ child.label }}
-              </div>
+<section class="w-full">
+  <button
+    type="button"
+    class="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-[var(--default-radius)] border border-[var(--secondary-color)] bg-transparent px-9 py-3 text-[1.15rem] font-bold text-[var(--secondary-color)] shadow-[0_2px_8px_rgba(59,172,83,0.05)] transition-all duration-200 hover:bg-[rgba(59,172,83,0.1)] focus:outline-none"
+    (click)="openPreviewModal()"
+  >
+    <i class="pi pi-code"></i>
+    Explore Structure
+  </button>
+</section>
+
+<div
+  class="fixed inset-0 z-[11000] flex items-center justify-center bg-[rgba(8,10,12,0.76)] p-5"
+  *ngIf="isModalOpen"
+  (click)="closePreviewModal()"
+>
+  <section
+    class="flex h-[min(740px,92vh)] w-[min(1160px,95vw)] flex-col overflow-hidden rounded-2xl border border-[#2b333d] bg-[#14181d]"
+    (click)="$event.stopPropagation()"
+  >
+    <header class="flex min-h-[72px] items-center justify-between border-b border-[#2b333d] px-4 py-3">
+      <div>
+        <h3 class="m-0 text-lg text-[#f2f5f8]">Project preview</h3>
+        <small class="text-[#9ba9b8]">
+          Browse files and inspect generated content before download.
+        </small>
+      </div>
+      <button
+        type="button"
+        class="h-9 w-9 cursor-pointer rounded-lg border border-[#394452] bg-[#1c222b] text-[#d9e2ec]"
+        (click)="closePreviewModal()"
+      >
+        <i class="pi pi-times"></i>
+      </button>
+    </header>
+
+    <div class="grid min-h-0 flex-1 grid-cols-[minmax(260px,320px)_1fr] max-[1115px]:grid-cols-1 max-[1115px]:grid-rows-[42%_58%]">
+      <aside class="flex min-h-0 flex-col border-r border-[#2b333d] max-[1115px]:border-b max-[1115px]:border-r-0">
+        <div class="border-b border-[#2b333d] px-3 py-2 text-xs uppercase tracking-[0.06em] text-[#a6b6c6]">
+          Files
+        </div>
+        <div class="overflow-auto">
+          <div class="p-3 text-sm" *ngIf="isLoading">Loading file preview...</div>
+          <div class="p-3 text-sm text-[#f29a9a]" *ngIf="!isLoading && loadError">{{ loadError }}</div>
+
+          <ul class="m-0 list-none px-0 py-1.5" *ngIf="!isLoading">
+            <li *ngFor="let item of treeItems">
+              <button
+                type="button"
+                class="flex min-h-8 w-full items-center gap-2 border-0 bg-transparent text-left text-[#dce6f1]"
+                [class.cursor-default]="item.type === 'folder'"
+                [class.text-[#a7b4c3]]="item.type === 'folder'"
+                [class.cursor-pointer]="item.type === 'file'"
+                [class.hover:bg-[rgba(67,195,125,0.1)]]="item.type === 'file'"
+                [class.bg-[#1f2a38]]="item.type === 'file' && item.path === selectedFilePath"
+                [class.text-white]="item.type === 'file' && item.path === selectedFilePath"
+                [style.padding-left.px]="12 + item.depth * 16"
+                (click)="item.type === 'file' && selectFile(item.path)"
+              >
+                <i
+                  class="pi"
+                  [class.text-[#7ca6d8]]="item.type === 'folder'"
+                  [class.text-[#6ecb80]]="item.type === 'file'"
+                  [ngClass]="item.type === 'folder' ? 'pi-folder' : 'pi-file'"
+                ></i>
+                <span>{{ item.name }}</span>
+              </button>
             </li>
           </ul>
-        </li>
-      </ng-container>
-    </ul>
-  </details>
-</section>
+        </div>
+      </aside>
+
+      <section class="flex min-h-0 flex-col">
+        <div class="flex min-h-11 items-center justify-between border-b border-[#2b333d] px-3 py-2">
+          <span class="text-[0.95rem] font-semibold text-[#e6edf3]">
+            {{ selectedFileName || 'No file selected' }}
+          </span>
+          <button
+            type="button"
+            class="cursor-pointer rounded-md border border-[#44505f] bg-[#1f2630] px-3 py-1 text-[#e6edf3] disabled:cursor-not-allowed disabled:opacity-50"
+            (click)="copyCurrentFile()"
+            [disabled]="!selectedFileContent"
+          >
+            Copy
+          </button>
+        </div>
+
+        <pre class="m-0 min-h-0 flex-1 overflow-auto bg-[#0f141a] px-4 py-4 text-[0.86rem] leading-6 text-[#dbe3ed]"><code>{{ selectedFileContent }}</code></pre>
+      </section>
+    </div>
+  </section>
+</div>

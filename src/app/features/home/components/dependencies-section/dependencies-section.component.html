@@ -1,29 +1,42 @@
-<section class="dependencies-section">
-  <div class="header">
-    <h2>Dependencies</h2>
+<section class="w-full">
+  <div class="mb-7 flex items-center justify-between gap-4 max-[700px]:flex-col max-[700px]:items-stretch max-[700px]:gap-3">
+    <h2 class="text-2xl font-bold tracking-[0.01em] text-[var(--text-color)]">Dependencies</h2>
     <input
       type="text"
-      class="search-input"
+      class="max-w-[260px] flex-1 rounded-[var(--default-radius)] border border-[var(--secondary-color)] bg-[var(--primary-color)] px-4 py-2 text-base text-[var(--text-color)] outline-none transition-colors duration-200 focus:border-[var(--primary-color)] max-[700px]:max-w-full max-[700px]:w-full max-[700px]:text-[0.97rem]"
       placeholder="Search dependency..."
       [(ngModel)]="search"
       (ngModelChange)="onSearch()"
     />
   </div>
 
-  <div class="dependencies-list">
+  <div class="max-h-[660.9px] overflow-y-auto rounded-[var(--default-radius)] bg-[var(--primary-color)] p-4 pr-2 shadow-[0_2px_8px_rgba(59,172,83,0.08)] max-[700px]:max-h-[350px] max-[700px]:p-2">
     <ng-container *ngFor="let category of categories">
-      <h3>{{ category }}</h3>
-      <ul>
+      <h3 class="mb-2 mt-5 rounded-md pl-2 text-[1.1rem] font-bold tracking-[0.01em] text-[var(--text-color)] max-[700px]:pl-1 max-[700px]:text-base">
+        {{ category }}
+      </h3>
+      <ul class="m-0 list-none p-0">
         <li
           *ngFor="let lib of filteredGrouped[category]"
           (click)="toggle(lib)"
-          [class.selected]="isSelected(lib)"
+          class="mb-1 flex cursor-pointer items-center justify-between gap-3 rounded-[10px] border border-transparent px-4 py-3.5 transition-all duration-150 hover:border-[var(--secondary-color)] hover:shadow-[0_2px_8px_rgba(59,172,83,0.1)] max-[700px]:px-3 max-[700px]:py-2.5"
+          [class.bg-[#e6f4ea]]="isSelected(lib)"
+          [class.border-[var(--secondary-color)]]="isSelected(lib)"
+          [class.border-l-[4px]]="isSelected(lib)"
+          [class.text-[var(--primary-color)]]="isSelected(lib)"
+          [class.shadow-[0_4px_16px_rgba(59,172,83,0.13)]]="isSelected(lib)"
         >
-          <span class="lib-name">{{ lib.name }}</span>
-          <small>{{ lib.description }}</small>
-          <span class="version">{{ lib.version }}</span>
+          <span class="min-w-28 text-[1.05rem] font-bold text-[var(--secondary-color)]">
+            {{ lib.name }}
+          </span>
+          <small class="mx-2 flex-1 text-[0.97rem] text-[var(--text-color)]/85 max-[700px]:hidden">
+            {{ lib.description }}
+          </small>
+          <span class="mr-2 rounded-md bg-[var(--primary-color)] px-2.5 py-[0.15rem] text-[0.85rem] font-semibold tracking-[0.01em] text-[#a0a0a0]">
+            {{ lib.version }}
+          </span>
           <i
-            class="pi"
+            class="pi text-xl text-[var(--secondary-color)]"
             [ngClass]="isSelected(lib) ? 'pi-check-circle' : 'pi-circle-off'"
           ></i>
         </li>
