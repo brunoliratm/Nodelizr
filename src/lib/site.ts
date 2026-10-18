@@ -7,7 +7,7 @@ export const siteConfig = {
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://nodelizr.vercel.app"
   ).replace(/\/$/, ""),
   locale: "en_US",
-  themeColor: "#0f0f0f",
+  themeColor: "#ffffff",
   accentColor: "#5fa04e",
   creator: "Aethelon",
   repo: "https://github.com/Aethelon/Nodelizr-APP",

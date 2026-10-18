@@ -1,18 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Lilita_One } from "next/font/google";
+import { Google_Sans_Code, Google_Sans_Flex } from "next/font/google";
 import { Providers } from "@/components/providers";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
-const inter = Inter({
+const googleSans = Google_Sans_Flex({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-google-sans",
+  axes: ["opsz"],
+  display: "swap",
+  adjustFontFallback: false,
+  fallback: ["Arial", "sans-serif"],
 });
 
-const lilitaOne = Lilita_One({
+const googleMono = Google_Sans_Code({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-brand",
+  variable: "--font-google-mono",
+  display: "swap",
+  adjustFontFallback: false,
+  fallback: ["monospace"],
 });
 
 export const metadata: Metadata = {
@@ -70,7 +77,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: siteConfig.themeColor,
-  colorScheme: "dark",
+  colorScheme: "light dark",
 };
 
 const jsonLd = {
@@ -100,9 +107,9 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${lilitaOne.variable} h-full font-sans antialiased`}
+        className={`${googleSans.variable} ${googleMono.variable} h-full font-sans antialiased`}
       >
         <script
           type="application/ld+json"

@@ -1,59 +1,79 @@
 "use client";
 
-import { Menu } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useUiStore } from "@/store/ui-store";
-import { Sidebar } from "./sidebar";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { ArrowUpRight, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { GithubIcon } from "@/components/icons/github";
+import { siteConfig } from "@/lib/site";
 import { GenerateBar } from "./generate-bar";
 
+const NAV_ITEMS = [
+  { href: "/", label: "Create" },
+  { href: "/templates", label: "Templates" },
+  { href: "/structure", label: "Structure" },
+];
+
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const mobileOpen = useUiStore((state) => state.mobileOpen);
-  const openMobile = useUiStore((state) => state.openMobile);
-  const closeMobile = useUiStore((state) => state.closeMobile);
+  const pathname = usePathname();
+  const { resolvedTheme, setTheme } = useTheme();
+  const mainRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!resolvedTheme) return;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute(
+      "content",
+      resolvedTheme === "dark" ? "#11151c" : siteConfig.themeColor,
+    );
+  }, [resolvedTheme, pathname]);
 
   return (
-    <div className="flex h-dvh overflow-hidden bg-background text-foreground">
-      {/* Desktop sidebar */}
-      <div className="hidden lg:block">
-        <Sidebar />
+    <div className="app-shell">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <header className="app-header">
+        <div className="app-header-inner">
+          <Link href="/" className="brand" aria-label="Nodelizr home">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/favicon.svg" alt="" width={33} height={33} />
+            <span>Nodelizr<span className="brand-dot">.</span></span>
+          </Link>
+          <nav className="main-nav" aria-label="Main navigation">
+            {NAV_ITEMS.map((item) => (
+              <Link key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined} className="nav-link">
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="header-actions">
+            <button
+              type="button"
+              className="theme-toggle"
+              aria-label="Toggle color theme"
+              title="Toggle color theme"
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            >
+              <Sun size={16} className="theme-icon-light" aria-hidden="true" />
+              <Moon size={16} className="theme-icon-dark" aria-hidden="true" />
+            </button>
+            <a href={siteConfig.repo} target="_blank" rel="noopener noreferrer" className="github-link">
+              <GithubIcon size={16} /><span>View on GitHub</span><ArrowUpRight size={14} />
+            </a>
+          </div>
+        </div>
+      </header>
+      <div className="announcement">
+        <span className="status-dot" /><span>A small start. Endless possibilities.</span>
+        <span className="announcement-divider" /><span className="announcement-note">Free & open source</span>
       </div>
-
-      {/* Mobile overlay + drawer */}
-      <div
-        className={cn(
-          "fixed inset-0 z-40 bg-black/60 transition-opacity lg:hidden",
-          mobileOpen ? "opacity-100" : "pointer-events-none opacity-0",
-        )}
-        onClick={closeMobile}
-      />
-      <div
-        className={cn(
-          "fixed inset-y-0 left-0 z-50 transition-transform duration-200 lg:hidden",
-          mobileOpen ? "translate-x-0" : "-translate-x-full",
-        )}
-      >
-        <Sidebar onNavigate={closeMobile} />
-      </div>
-
-      {/* Main */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="flex h-14 shrink-0 items-center gap-3 border-b border-border px-4 lg:hidden">
-          <button
-            type="button"
-            onClick={openMobile}
-            aria-label="Open menu"
-            className="flex h-9 w-9 items-center justify-center rounded-md text-foreground transition-colors hover:bg-accent"
-          >
-            <Menu size={20} />
-          </button>
-          <span className="font-brand text-xl text-primary">
-            NODE<span className="text-foreground">LIZR</span>
-          </span>
-        </header>
-
-        <main className="flex-1 overflow-y-auto">{children}</main>
-        <GenerateBar />
-      </div>
+      <main ref={mainRef} id="main-content" className="app-main" tabIndex={-1}>
+        <div key={pathname} className="page-transition">{children}</div>
+      </main>
+      <GenerateBar />
     </div>
   );
 }

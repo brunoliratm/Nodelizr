@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Copy, File, Folder } from "lucide-react";
+import { Copy, File, FileCode2, Folder, FolderTree } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { getTemplatePreview } from "@/lib/api";
 import {
   buildFallbackFilesFromTree,
@@ -17,6 +16,11 @@ import type { TemplatePreviewFile } from "@/lib/types";
 
 export default function StructurePage() {
   const templateId = useProjectStore((s) => s.templateId);
+
+  return <StructurePreview key={templateId} templateId={templateId} />;
+}
+
+function StructurePreview({ templateId }: { templateId: string }) {
   const templates = useProjectStore((s) => s.templates);
 
   const [files, setFiles] = useState<TemplatePreviewFile[]>([]);
@@ -29,8 +33,6 @@ export default function StructurePage() {
 
   useEffect(() => {
     let active = true;
-    setLoading(true);
-    setError("");
 
     const applyFiles = (incoming: TemplatePreviewFile[]) => {
       const sorted = [...incoming].sort((a, b) =>
@@ -79,76 +81,68 @@ export default function StructurePage() {
   };
 
   return (
-    <div className="flex h-full flex-col p-6 lg:p-10">
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground lg:text-3xl">
-          Project structure
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Browse the files that will be generated for{" "}
-          <span className="font-semibold text-foreground">
+    <div className="page-shell structure-page">
+      <header className="structure-header">
+        <p className="eyebrow"><span className="status-dot" /> A LITTLE LOOK INSIDE</p>
+        <h1 className="page-title">Good structure.<br /><span>Great possibilities.</span></h1>
+        <p className="page-description">
+          Explore your files before they become your next project.{" "}
+          <span className="text-foreground">
             {selectedTemplate?.name ?? "the selected template"}
-          </span>{" "}
-          before download.
+          </span>.
         </p>
       </header>
 
-      <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden rounded-lg border border-border bg-card lg:grid-cols-[minmax(240px,320px)_1fr]">
+      <div className="file-workspace">
         {/* Tree */}
-        <aside className="flex min-h-0 flex-col border-b border-border lg:border-b-0 lg:border-r">
-          <div className="border-b border-border px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            Files
+        <aside className="file-sidebar" aria-label="Project files">
+          <div className="file-sidebar-heading">
+            <span className="flex items-center gap-2"><FolderTree size={13} /> EXPLORER</span>
+            <span className="count-badge">{files.length}</span>
           </div>
-          <ScrollArea className="min-h-0 flex-1">
-            <div className="py-1.5">
-              {loading && (
-                <p className="p-3 text-sm text-muted-foreground">
-                  Loading file preview...
-                </p>
-              )}
-              {error && (
-                <p className="p-3 text-sm text-destructive">{error}</p>
-              )}
-              {!loading &&
-                treeItems.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() =>
-                      item.type === "file" && setSelectedPath(item.path)
-                    }
-                    style={{ paddingLeft: 12 + item.depth * 16 }}
-                    className={cn(
-                      "flex min-h-8 w-full items-center gap-2 py-1 pr-2 text-left text-sm",
-                      item.type === "folder"
-                        ? "cursor-default text-muted-foreground"
-                        : "cursor-pointer text-foreground hover:bg-accent",
-                      item.type === "file" &&
-                        item.path === selectedPath &&
-                        "bg-primary/10 text-primary",
-                    )}
-                  >
-                    {item.type === "folder" ? (
-                      <Folder size={16} className="shrink-0" />
-                    ) : (
-                      <File size={16} className="shrink-0" />
-                    )}
-                    <span className="truncate">{item.name}</span>
-                  </button>
-                ))}
-            </div>
-          </ScrollArea>
+          <div className="file-tree">
+            {loading && (
+              <p className="p-3 text-sm text-muted-foreground">
+                Loading file preview...
+              </p>
+            )}
+            {error && (
+              <p className="p-3 text-sm text-destructive">{error}</p>
+            )}
+            {!loading &&
+              treeItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() =>
+                    item.type === "file" && setSelectedPath(item.path)
+                  }
+                  style={{ paddingLeft: 12 + item.depth * 16 }}
+                  disabled={item.type === "folder"}
+                  aria-pressed={item.type === "file" ? item.path === selectedPath : undefined}
+                  className={cn("file-tree-item", item.type === "folder" && "file-folder")}
+                >
+                  {item.type === "folder" ? (
+                    <Folder size={14} className="shrink-0" strokeWidth={1.5} />
+                  ) : (
+                    <File size={14} className="shrink-0" strokeWidth={1.5} />
+                  )}
+                  <span className="truncate">{item.name}</span>
+                </button>
+              ))}
+          </div>
         </aside>
 
         {/* Content */}
-        <section className="flex min-h-0 flex-col">
-          <div className="flex min-h-11 items-center justify-between border-b border-border px-4 py-2">
-            <span className="truncate text-sm font-semibold text-foreground">
-              {selectedName || "No file selected"}
+        <section className="code-panel" aria-label="File content">
+          <div className="code-header">
+            <span className="code-header-path">
+              <FileCode2 size={14} /><span className="truncate">{selectedPath || "No file selected"}</span>
             </span>
             <Button
-              variant="secondary"
+              variant="ghost"
               size="sm"
+              className="copy-button"
               onClick={copyCurrentFile}
               disabled={!selectedContent}
             >
@@ -156,13 +150,13 @@ export default function StructurePage() {
               Copy
             </Button>
           </div>
-          <ScrollArea className="min-h-0 flex-1">
-            <pre className="p-4 text-sm leading-6 text-foreground">
-              <code>{selectedContent}</code>
-            </pre>
-          </ScrollArea>
+          <pre className="code-content" aria-busy={loading}>
+            <code>{loading ? "Preparing your preview..." : selectedContent}</code>
+          </pre>
+          <div className="code-footer"><span>{selectedName || "Preview"}</span><span>UTF-8 · {selectedContent.split("\n").length} lines</span></div>
         </section>
       </div>
+      <div className="page-note"><span>Your foundation. Ready to build on.</span><span>Preview before you download.</span></div>
     </div>
   );
 }

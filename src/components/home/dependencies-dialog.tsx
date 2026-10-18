@@ -47,10 +47,11 @@ export function DependenciesDialog({
       onOpenChange={onOpenChange}
       title="Add dependencies"
       description="Search and add dependencies to your project."
-      className="top-1/2 w-[calc(100%-2rem)] max-w-2xl -translate-y-1/2 border border-border shadow-2xl sm:max-w-2xl"
+      className="dependency-dialog top-1/2 w-[calc(100%-2rem)] max-w-2xl -translate-y-1/2 border border-border sm:max-w-2xl"
+      showCloseButton
     >
       <Command>
-        <CommandInput placeholder="Search dependencies..." />
+        <CommandInput placeholder="Find your next dependency..." aria-label="Search dependencies" />
         <CommandList className="max-h-[60vh]">
         <CommandEmpty>No dependencies found.</CommandEmpty>
         {Object.keys(grouped).map((category) => (
@@ -74,13 +75,13 @@ export function DependenciesDialog({
                   >
                     {selected && <Check size={12} strokeWidth={3} />}
                   </span>
-                  <span className="w-32 shrink-0 truncate font-semibold text-primary">
+                  <span className="w-28 shrink-0 truncate font-mono text-xs text-foreground max-sm:w-24">
                     {lib.name}
                   </span>
-                  <span className="flex-1 truncate text-muted-foreground">
+                  <span className="flex-1 truncate text-xs text-muted-foreground max-sm:hidden">
                     {lib.description}
                   </span>
-                  <span className="shrink-0 rounded border border-border px-1.5 py-0.5 text-xs text-muted-foreground">
+                  <span className="ml-auto shrink-0 rounded-md bg-muted px-2 py-1 font-mono text-[10px] text-muted-foreground">
                     {lib.version}
                   </span>
                 </CommandItem>
@@ -89,7 +90,7 @@ export function DependenciesDialog({
           </CommandGroup>
         ))}
         </CommandList>
-        <div className="mt-1 border-t border-border px-3 py-2 text-xs text-muted-foreground">
+        <div className="mt-1 border-t border-border px-3 py-3 text-[11px] text-muted-foreground">
           Selecting keeps the dialog open. Add multiple, then press{" "}
           <kbd className="rounded border border-border bg-muted px-1">Esc</kbd>{" "}
           to close.
